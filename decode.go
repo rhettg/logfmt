@@ -135,7 +135,7 @@ equal:
 	start = dec.pos
 	for p, c := range line[dec.pos:] {
 		switch {
-		case c == '=' || c == '"' || c == '\'':
+		case c == '"' || c == '\'':
 			dec.pos += p
 			dec.unexpectedByte(c)
 			return false

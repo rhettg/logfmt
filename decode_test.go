@@ -79,6 +79,13 @@ func TestDecoder_scan(t *testing.T) {
 				{[]byte("y"), []byte("g")},
 			}},
 		},
+		{
+			"y=k=v x=f",
+			[][]kv{{
+				{[]byte("y"), []byte("k=v")},
+				{[]byte("x"), []byte("f")},
+			}},
+		},
 	}
 
 	for _, test := range tests {
@@ -114,9 +121,6 @@ func TestDecoder_errors(t *testing.T) {
 		{"a=1\n\"k\"=bar", &SyntaxError{Msg: "unexpected '\"'", Line: 2, Pos: 1}},
 		{"a=1\nk\"ey=bar", &SyntaxError{Msg: "unexpected '\"'", Line: 2, Pos: 2}},
 		{"a=1\nk=b\"ar", &SyntaxError{Msg: "unexpected '\"'", Line: 2, Pos: 4}},
-		{"a=1\nk=b =ar", &SyntaxError{Msg: "unexpected '='", Line: 2, Pos: 5}},
-		{"a==", &SyntaxError{Msg: "unexpected '='", Line: 1, Pos: 3}},
-		{"a=1\nk=b=ar", &SyntaxError{Msg: "unexpected '='", Line: 2, Pos: 4}},
 		{"a=\"1", &SyntaxError{Msg: "unterminated quoted value", Line: 1, Pos: 5}},
 		{"a=\"1\\", &SyntaxError{Msg: "unterminated quoted value", Line: 1, Pos: 6}},
 		{"a=\"\\t1", &SyntaxError{Msg: "unterminated quoted value", Line: 1, Pos: 7}},
